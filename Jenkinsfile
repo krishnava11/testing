@@ -22,8 +22,8 @@ node {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
             } */
-	    withCredentials([string(credentialsId: 'DockerUsername', variable: 'dockerpass')]) {
-		    sh "docker login -u manoj96 -p ${dockerpass}"
+	    withCredentials([string(credentialsId: 'DockerUsername', variable: 'DockerUsername'), string(credentialsId: 'DockerPassword', variable: 'DockerPassword')]) {
+		    sh "docker login -u ${DockerUsername} -p ${DockerPassword}"
 		    
              }
 	    sh "docker push manoj96/app:${currentBuild.number}"
