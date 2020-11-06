@@ -10,23 +10,23 @@ node {
     stage('Build image') {
         /* This builds the actual image */
 
-        /*app = docker.build("manoj96/app")*/
-	  sh "docker build -t manoj96/app:${currentBuild.number} ."
+        app = docker.build("manoj96/app")
+	/*sh "docker build -t manoj96/app:${currentBuild.number} ."*/
     }
 
     stage('Push image') {
         /* 
-			You would need to first register with DockerHub before you can push images to your account
+			You would need to first register with DockerHub before you can push images to your account*/
 		
-        docker.withRegistry('https://registry.hub.docker.com', 'Docker') {
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
-            } */
-	    withCredentials([string(credentialsId: 'DockerUsername', variable: 'DockerUsername'), string(credentialsId: 'DockerPassword', variable: 'DockerPassword')]) {
+            } 
+	    /*withCredentials([string(credentialsId: 'DockerUsername', variable: 'DockerUsername'), string(credentialsId: 'DockerPassword', variable: 'DockerPassword')]) {
 		    sh "docker login -u ${DockerUsername} -p ${DockerPassword}"
 		    
              }
-	    sh "docker push manoj96/app:${currentBuild.number}"
+	    sh "docker push manoj96/app:${currentBuild.number}"*/
                 echo "Trying to Push Docker Build to DockerHub"
     }
 }
